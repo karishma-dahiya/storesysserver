@@ -123,11 +123,17 @@ app.get('/purchases', function (req, res) {
             let dataArr = JSON.parse(data);
             let purchases = dataArr.purchases;
             if (shop) {
-                purchases = purchases.filter((a) => a.shopId === +shop);
+                let shop1 = shop.substring(2);
+                //console.log(shop1);
+                purchases = purchases.filter((a) => a.shopId === +shop1);
             }
             if (product) {
                 let values = product.split(',');
-                purchases = purchases.filter((a) => values.find((b)=>+b===a.productid));
+                let values1 = values.map((a) => {
+                    let val = a.substring(2);
+                    return val;
+                });
+                purchases = purchases.filter((a) => values1.find((b)=>+b===a.productid));
             }
             if (sort === 'QtyAsc') {
                 purchases.sort((a, b) => a.quantity - b.quantity);
